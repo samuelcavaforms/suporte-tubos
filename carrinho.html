@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Carrinho - Forms3D</title>
+
+<style>
+body{
+font-family:Arial;
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.item{
+border-bottom:1px solid #ddd;
+padding:10px 0;
+}
+
+button{
+background:#3B82F6;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+}
+
+input,textarea{
+width:100%;
+padding:8px;
+margin:5px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Carrinho Forms3D</h1>
+
+<div id="listaCarrinho"></div>
+
+<h2>Dados do Cliente</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="email" placeholder="Email">
+<textarea id="observacoes" placeholder="Observações"></textarea>
+
+<button onclick="enviarPedido()">Finalizar Pedido</button>
+
+<script>
+
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+function carregarCarrinho(){
+
+let html="";
+
+carrinho.forEach((item,index)=>{
+html+=`
+<div class="item">
+<strong>${item.nome}</strong><br>
+Quantidade: ${item.qtd}
+<button onclick="remover(${index})">Remover</button>
+</div>
+`;
+});
+
+document.getElementById("listaCarrinho").innerHTML=html;
+}
+
+function remover(i){
+carrinho.splice(i,1);
+localStorage.setItem("carrinho",JSON.stringify(carrinho));
+carregarCarrinho();
+}
+
+function enviarPedido(){
+
+let nome=document.getElementById("nome").value;
+let email=document.getElementById("email").value;
+let obs=document.getElementById("observacoes").value;
+
+let pedido="Pedido Forms3D%0D%0A";
+
+carrinho.forEach(item=>{
+pedido+=`${item.nome} - Qtd:${item.qtd}%0D%0A`;
+});
+
+pedido+=`%0D%0ANome: ${nome}%0D%0AEmail: ${email}%0D%0AObs: ${obs}`;
+
+window.location.href=
+`mailto:contato.forms3d@gmail.com?subject=Novo Pedido Forms3D&body=${pedido}`;
+}
+
+carregarCarrinho();
+
+</script>
+
+</body>
+</html>
