@@ -65,23 +65,5 @@ return;
 alert("Mensagem enviada com sucesso!");
 form.reset();
 });
-  <script>
-function addCarrinho(nome){
-
-let carrinho =
-JSON.parse(localStorage.getItem("carrinho")) || [];
-
-let existente = carrinho.find(p=>p.nome===nome);
-
-if(existente){
-existente.qtd++;
-}else{
-carrinho.push({nome:nome,qtd:1});
-}
-
-localStorage.setItem("carrinho",JSON.stringify(carrinho));
-
-alert("Produto adicionado ao carrinho!");
-}
-</script>
+ 
 }
